@@ -6,17 +6,36 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useState } from "react";
 import React from "react";
 import Spinner from "react-native-loading-spinner-overlay";
 import { supabase } from "../config/initSupabase";
+import { useFonts } from "expo-font";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  let [loaded] = useFonts({
+    Pbold: require("../assets/fonts/Poppins-SemiBold.ttf"),
+  });
 
+  if (!loaded) {
+    return (
+      <View
+        style={{
+          backgroundColor: "#121212",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator color={"white"} size={"large"} />
+      </View>
+    );
+  }
   // Sign in with email and password
   const onSignInPress = async () => {
     setLoading(true);
@@ -87,6 +106,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 50,
     color: "#fff",
+    fontFamily: "PBold",
   },
   inputField: {
     marginVertical: 4,

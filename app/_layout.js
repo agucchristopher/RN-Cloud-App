@@ -1,12 +1,17 @@
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "../provider/AuthProvider";
-
+import { useFonts } from "expo-font";
+import { ActivityIndicator, View } from "react-native";
 // Makes sure the user is authenticated before accessing protected pages
+
 const InitialLayout = () => {
   const { session, initialized } = useAuth();
   const segments = useSegments();
   const router = useRouter();
+  let [loaded] = useFonts({
+    Pbold: require("../assets/fonts/Poppins-SemiBold.ttf"),
+  });
 
   useEffect(() => {
     if (!initialized) return;
@@ -22,7 +27,20 @@ const InitialLayout = () => {
       router.replace("/");
     }
   }, [session, initialized]);
-
+  if (!loaded) {
+    return (
+      <View
+        style={{
+          backgroundColor: "#121212",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator color={"white"} size={"large"} />
+      </View>
+    );
+  }
   return <Slot />;
 };
 

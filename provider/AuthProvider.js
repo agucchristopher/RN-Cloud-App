@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "../config/initSupabase";
+import { router } from "expo-router";
 
 export const AuthContext = createContext({});
 
